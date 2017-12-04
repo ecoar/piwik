@@ -1,7 +1,7 @@
 version: '2'
 networks:
   lb_web:
-    external: true
+    external: false
   back:
     driver: bridge
 services:
@@ -30,10 +30,13 @@ services:
     volumes_from:
       - app
     environment:
-      - VIRTUAL_HOST
+      - VIRTUAL_HOST=localhost
     networks:
     - back
     - lb_web
+    ports:
+      - "80:80"
+      - "443:443"
   cron:
     image: piwik:fpm
     links:

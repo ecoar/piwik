@@ -1,0 +1,6 @@
+#!/bin/bash -eux
+URL=${PWD##*/}
+db_container_name=`echo ${URL}_db_1 | sed "s/\.//g" | sed "s/-//g"`; \
+
+# (docker exec -i $db_container_name bash -c 'mysql --skip-lock-tables --single-transaction --all-databases --events -uroot -p$MYSQL_ROOT_PASSWORD') < ./mysql/piwik_restore.sql.gz
+gunzip < ./mysql/piwik_restore.sql.gz | docker exec -i $db_container_name bash -c 'mysql -uroot -p$MYSQL_ROOT_PASSWORD'
